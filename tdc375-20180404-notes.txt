@@ -1,0 +1,163 @@
+# TDC 375 2018-04-05, jtk notes
+
+IPv4 header.  Also see: <https://tools.ietf.org/html/rfc791>
+
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |Version|  IHL  |Type of Service|          Total Length         |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |         Identification        |Flags|      Fragment Offset    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Time to Live |    Protocol   |         Header Checksum       |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                       Source Address                          |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Destination Address                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Options                    |    Padding    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+IPv6 header.  Also see: <https://tools.ietf.org/html/rfc8200>
+
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |Version| Traffic Class |           Flow Label                  |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |         Payload Length        |  Next Header  |   Hop Limit   |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +                         Source Address                        +
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +                      Destination Address                      +
+   |                                                               |
+   +                                                               +
+   |                                                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+Commentary on class 1 slide deck:
+
+  The notion of tier 1, 2, and 3 ISPs is mostly marketing.  You probably
+  won't find an ISP that goes around bragging they are tier 3.  Likewise,
+  many claim to be tier 1 and arguably are not.  Most of this designation
+  is largely irrelevant in practice.  It is not something netops take too
+  seriously.  Netops consider an ISP's network topology, connection
+  points, routing policies, reputation, cost and so on, all of which are
+  much more nuanced and subjective per peer or customer.  Nonetheless
+  these pages may be the closest thing to the truth about what a tier is
+  or is not (and the tier 1 list is probably already outdated):
+
+    <http://drpeering.net/FAQ/What-is-a-Tier-1-ISP.php>
+    <http://drpeering.net/FAQ/What-is-a-Tier-2-ISP.php>
+    <http://drpeering.net/FAQ/Who-are-the-Tier-1-ISPs.php>
+
+  Note: IANA allocates ASNs to regional Internet registries (RIRs).  Once
+  upon a time networks would have gotten an allocation directly from IANA,
+  but that hasn't been true in a very long time.  No ISP gets ASNs
+  directly from IANA now.
+
+  Peering arrangements may in be done for profit, or at least not for
+  free.  There is "settlement-free" (interconnect) peering, where two
+  networks agree to peer and exchange traffic without any fees being
+  exchanged between them, but there is also "paid peering", where one
+  network pays another for the privilege of traffic exchange.  Paid
+  peering typically implies a smaller network paying a larger network for
+  the direct interconnect.
+
+  ICANN and IANA don't really create standards, though ICANN sometimes
+  writes policies and guidelines.  It might be better to say they provide
+  support for standards organizations, in particular the IETF.
+
+  Carrier Ethernet was emerging about 20 years ago.  It is now a widely
+  available service.  MPLS, only slightly newer, is also now very widely
+  deployed.
+
+  Even though we may not call them bridges anymore, many netops still call
+  them bridge (or maybe bridging) loops rather than switch loops.
+
+  Broadcast domain = IP subnet is very misleading, because IP subnet !=
+  broadcast domain.  You may have multiple subnets in a broadcast domain.
+
+  Layer 2 addresses can be defined in software, overriding the "physical"
+  hardware device assigned address.  See any VM, or the configuration
+  options for you network adapter.  Some modern OSes are also now doing
+  layer 2 address randomization for privacy reasons in software.
+
+  Layer 3 addresses are not necessarily unique.  Anycast addressing for
+  instance is very common for certain types of services or applications
+  (e.g. DNS and some CDNs).  And 0.0.0.0 (or 127.0.0.1) is assigned to
+  everyone.  :-)
+
+  IP != IP address.  If you ask me what my IP is, I'll say 4 and 6.
+
+
+Commentary on class 2 slide deck:
+
+  IPv4 address exhaustion has occurred.  IANA has no more IPv4 addresses
+  to allocate to RIRs.  RIRs may have some, but there is a wait list, the
+  justification to get them is particularly narrow, and you probably won't
+  get what you may want from them any time soon.  There are active after
+  markets however.  You'll probably pay $5,000 when all is said done to
+  properly take over an /24 IPv4 these days.  Note, the $/address numbers
+  are misleading, those costs leave out a lot if you want to get a block
+  properly assigned in your name.
+
+  Classful addressing has been obsolete since the early 1990's.  Do NOT
+  refer to addresses as a class A, B, or C outside of the classroom.
+  There are no such things.  This is by far one of the biggest complaints
+  I hear from colleagues in networking communities.   They slap their
+  heads when they get interview candidates, particularly students, who
+  refer to a "Class C network" in their interview for example.  Instead,
+  use the slash notation (e.g.  "/24 v4 prefix").
+
+  Note, until you understand that there are 256 addresses in a /24 prefix,
+  you do not understand IP addressing.  You will really understand IP
+  addressing when you realize that all 256 addresses in an IPv4 /24 prefix
+  may be usable and possibly assigned to end hosts.
+
+Commentary on class 3 slide deck:
+
+  It is a misconception to think that IPv6 improves security.  It may even
+  make it worse in some practical sense.  Nevertheless, even the much
+  touted IPsec requirement for IPv6 has been relaxed.  Notice the
+  difference in keywords MUST and SHOULD.  RFC 4294 - IPv6 Node
+  Requirements said:
+
+    Security Architecture for the Internet Protocol [RFC-4301] MUST be
+    supported.
+
+  That RFC was obsoleted by RFC 6434 - IPv6 Node Requirements and says:
+
+    This document updates that recommendation by making support of the
+    IPsec Architecture [RFC4301] a SHOULD for all IPv6 nodes.
+
+  ISPs (usually) minimally give a /48 or /56 to end customers.  It is
+  far easier to get IPv6 address space than it is for IPv4.  DePaul was
+  recently allocated a /32 (in addition to two /48's already assigned),
+  which is considered small for an ISP by ARIN standards.
+
+  Note, IPv4 (Type of) Service field has been redefined into two separate
+  fields.  Six bits for DiffServ and two for ECN.
+
+  IPv4 ID field is not necessarily random.  Depends on OS selection
+  strategy.  Some form of randomization is generally preferable.
+
+  ICMP source quench messages have now been deprecated.  See IETF RFC
+  6633 - Deprecation of ICMP Source Quench Messages.
+
+  Personally, I think traceroute deserves a closer and longer look.
+  Shameless plug:
+
+    <https://www.youtube.com/watch?v=HgmJ0tHTGyI>
+    <http://chinog.org/wp-content/uploads/2015/05/How-Traceroute-Explains-the-Internet.pdf>
+
+# end
