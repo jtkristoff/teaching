@@ -65,7 +65,7 @@ Commentary on class 1 slide deck:
   but that hasn't been true in a very long time.  No ISP gets ASNs
   directly from IANA now.
 
-  Peering arrangements may in be done for profit, or at least not for
+  Peering arrangements may be done for profit, or at least not for
   free.  There is "settlement-free" (interconnect) peering, where two
   networks agree to peer and exchange traffic without any fees being
   exchanged between them, but there is also "paid peering", where one
