@@ -124,6 +124,10 @@ Commentary on class 2 slide deck:
   addressing when you realize that all 256 addresses in an IPv4 /24 prefix
   may be usable and possibly assigned to end hosts.
 
+  One of the better explanations (just the first half) of IPv4 addressing:
+
+    <http://tdc.iorc.depaul.edu/media/ipaddressing.pdf>
+
 Commentary on class 3 slide deck:
 
   It is a misconception to think that IPv6 improves security.  It may even
